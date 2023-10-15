@@ -8,6 +8,7 @@ import { CiTempHigh } from "react-icons/ci";
 import { FaWind } from "react-icons/fa";
 import { WiHumidity } from "react-icons/wi";
 import { FaSun } from "react-icons/fa";
+import { AiOutlineSend } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "@/serverAPI";
@@ -28,7 +29,7 @@ export default function Home() {
             },
           }
         );
-        console.log(data);
+
         setData(data);
       } catch (e) {
         console.log(e);
@@ -37,18 +38,48 @@ export default function Home() {
     fetchData();
   }, []);
 
+  const handleBtn = () => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(
+          `${SERVER_URL}&q=${
+            searchInput.length === 0 ? "dhaka" : searchInput
+          }&days=7&aqi=yes&alerts=no`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        setData(data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+  };
+
   return (
     <div className=" mt-10 h-[90vh] md:mt-10 md:min-w-[100rem] overflow-y-auto md:overflow-y-hidden">
       <div className="flex flex-col md:flex-row">
         <div className="flex flex-col  flex-wrap  md:w-[70rem] h-screen">
           <div className="searchBTN">
-            <div className="">
+            <div className="flex">
               <input
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 type="text"
                 placeholder="Search for cities"
                 className="w-[19rem] md:w-full  rounded-2xl  p-2 placeholder:text-gray-950/20  bg-gray-300/50 
            outline-none"
               />
+              <button
+                onClick={handleBtn}
+                className="bg-gray-300/50 rounded-2xl md:p-2 md:ml-1"
+              >
+                <AiOutlineSend className="w-4" />{" "}
+              </button>
             </div>
           </div>
           <div className="firstBox mt-6 md:w-full   ">
