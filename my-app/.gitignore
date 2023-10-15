@@ -34,5 +34,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
-serverApi/.env
+# Ignore serverAPI.js
+serverAPI.js
