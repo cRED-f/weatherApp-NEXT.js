@@ -1,12 +1,42 @@
+"use client";
 import Image from "next/image";
 import rainy from "../public/img/rainy.png";
-
+import sunny from "../public/img/sunny.png";
+import cloudy from "../public/img/cloudy.png";
+import clear from "../public/img/clear.png";
 import { CiTempHigh } from "react-icons/ci";
 import { FaWind } from "react-icons/fa";
 import { WiHumidity } from "react-icons/wi";
 import { FaSun } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { SERVER_URL } from "@/serverAPI";
 
 export default function Home() {
+  const [searchInput, setSearchInput] = useState("");
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(
+          `${SERVER_URL}&q=${
+            searchInput.length === 0 ? "dhaka" : searchInput
+          }&days=7&aqi=yes&alerts=no`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(data);
+        setData(data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className=" mt-10 h-[90vh] md:mt-10 md:min-w-[100rem] overflow-y-auto md:overflow-y-hidden">
       <div className="flex flex-col md:flex-row">
@@ -25,12 +55,25 @@ export default function Home() {
             <div className="flex justify-between my-4">
               {" "}
               <div className="p-5 ">
-                <h1 className="text-3xl font-bold ">Madrid</h1>
-                <p>Chance of rain 0%</p>
+                <h1 className="text-3xl font-bold ">{data?.location.name}</h1>
+                <div className="bg-gray-300/50 w-fit p-2 rounded-2xl">
+                  {" "}
+                  <p className="text-left">
+                    Condition:{data?.current.condition.text}
+                  </p>
+                </div>
               </div>
               <div>
                 <Image
-                  src={rainy}
+                  src={
+                    data?.current.condition.text === "Rain"
+                      ? rainy
+                      : data?.current.condition.text === "Sunny"
+                      ? sunny
+                      : data?.current.condition.text === "Clear"
+                      ? clear
+                      : cloudy
+                  }
                   alt="rainy"
                   className="w-20 md:w-36 md:mx-20   mt-1"
                 />
@@ -38,7 +81,8 @@ export default function Home() {
             </div>
             <div>
               <h1 className="px-5  text-5xl md:text-6xl font-bold">
-                31<span>&#176;</span>
+                {data?.current.temp_c}
+                <span>&#176;</span>
               </h1>
             </div>
           </div>
@@ -51,37 +95,112 @@ export default function Home() {
               <div className="flex w-[300px] items-center justify-evenly my-8   md:w-full">
                 <div className="flex mx-3 flex-col ">
                   <h1 className="text-gray-800/50 font-semibold">06:00AM</h1>
-                  <Image src={rainy} alt="rainy" className="w-12 my-2" />
+                  <Image
+                    src={
+                      data?.forecast.forecastday[0].hour[6].condition.text ===
+                      "Rain"
+                        ? rainy
+                        : data?.forecast.forecastday[0].hour[6].condition
+                            .text === "Sunny"
+                        ? sunny
+                        : data?.forecast.forecastday[0].hour[6].condition
+                            .text === "Clear"
+                        ? clear
+                        : cloudy
+                    }
+                    alt="rainy"
+                    className="w-12 my-2"
+                  />
                   <p className="text-gray-800/50 text-center font-semibold">
-                    31&#176;
+                    {data?.forecast.forecastday[0].hour[6].temp_c}&#176;
                   </p>
                 </div>
                 <div className="flex mx-3 flex-col">
                   <h1 className="text-gray-800/50  font-semibold">09:00AM</h1>
-                  <Image src={rainy} alt="rainy" className="w-12 my-2" />
+                  <Image
+                    src={
+                      data?.forecast.forecastday[0].hour[9].condition.text ===
+                      "Rain"
+                        ? rainy
+                        : data?.forecast.forecastday[0].hour[9].condition
+                            .text === "Sunny"
+                        ? sunny
+                        : data?.forecast.forecastday[0].hour[9].condition
+                            .text === "Clear"
+                        ? clear
+                        : cloudy
+                    }
+                    alt="rainy"
+                    className="w-12 my-2"
+                  />
                   <p className="text-gray-800/50 text-center font-semibold">
-                    31&#176;
+                    {data?.forecast.forecastday[0].hour[9].temp_c}&#176;
                   </p>
                 </div>
                 <div className="flex mx-3 flex-col">
                   <h1 className="text-gray-800/50 font-semibold">12:00PM</h1>
-                  <Image src={rainy} alt="rainy" className="w-12 my-2" />
+                  <Image
+                    src={
+                      data?.forecast.forecastday[0].hour[12].condition.text ===
+                      "Rain"
+                        ? rainy
+                        : data?.forecast.forecastday[0].hour[12].condition
+                            .text === "Sunny"
+                        ? sunny
+                        : data?.forecast.forecastday[0].hour[12].condition
+                            .text === "Clear"
+                        ? clear
+                        : cloudy
+                    }
+                    alt="rainy"
+                    className="w-12 my-2"
+                  />
                   <p className="text-gray-800/50 text-center font-semibold">
-                    31&#176;
+                    {data?.forecast.forecastday[0].hour[12].temp_c}&#176;
                   </p>
                 </div>
                 <div className="flex mx-3 flex-col">
                   <h1 className="text-gray-800/50 font-semibold">03:00PM</h1>
-                  <Image src={rainy} alt="rainy" className="w-12 my-2" />
+                  <Image
+                    src={
+                      data?.forecast.forecastday[0].hour[15].condition.text ===
+                      "Rain"
+                        ? rainy
+                        : data?.forecast.forecastday[0].hour[15].condition
+                            .text === "Sunny"
+                        ? sunny
+                        : data?.forecast.forecastday[0].hour[15].condition
+                            .text === "Clear"
+                        ? clear
+                        : cloudy
+                    }
+                    alt="rainy"
+                    className="w-12 my-2"
+                  />
                   <p className="text-gray-800/50 text-center  font-semibold">
-                    31&#176;
+                    {data?.forecast.forecastday[0].hour[15].temp_c}&#176;
                   </p>
                 </div>
                 <div className="flex mx-3 flex-col">
                   <h1 className="text-gray-800/50 font-semibold">06:00PM</h1>
-                  <Image src={rainy} alt="rainy" className="w-12 my-2" />
+                  <Image
+                    src={
+                      data?.forecast.forecastday[0].hour[18].condition.text ===
+                      "Rain"
+                        ? rainy
+                        : data?.forecast.forecastday[0].hour[18].condition
+                            .text === "Sunny"
+                        ? sunny
+                        : data?.forecast.forecastday[0].hour[18].condition
+                            .text === "Clear"
+                        ? clear
+                        : cloudy
+                    }
+                    alt="rainy"
+                    className="w-12 my-2"
+                  />
                   <p className="text-gray-800/50 text-center font-semibold">
-                    31&#176;
+                    {data?.forecast.forecastday[0].hour[18].temp_c}&#176;
                   </p>
                 </div>
               </div>
@@ -100,7 +219,7 @@ export default function Home() {
                   </h1>
                 </div>
                 <h1 className="text-gray-800/50 text-3xl ml-4 font-semibold text-center">
-                  30 &#176;
+                  {data?.current.feelslike_c} &#176;
                 </h1>
               </div>
               <div>
@@ -110,7 +229,8 @@ export default function Home() {
                   <h1 className="text-gray-800/50   font-semibold">Wind</h1>
                 </div>
                 <h1 className="text-gray-800/50 text-3xl ml-4 font-semibold text-center">
-                  30 <span className="text-[10px]"> Km/h</span>
+                  {data?.current.wind_kph}{" "}
+                  <span className="text-[10px]"> Km/h</span>
                 </h1>
               </div>
             </div>
@@ -123,7 +243,7 @@ export default function Home() {
                   <h1 className="text-gray-800/50   font-semibold">Humidty</h1>
                 </div>
                 <h1 className="text-gray-800/50 text-3xl ml-4 font-semibold text-center">
-                  30
+                  {data?.current.humidity}%{" "}
                 </h1>
               </div>
               <div>
@@ -133,7 +253,7 @@ export default function Home() {
                   <h1 className="text-gray-800/50   font-semibold">UV</h1>
                 </div>
                 <h1 className="text-gray-800/50 text-3xl ml-4 font-semibold text-center">
-                  30
+                  {data?.current.uv}
                 </h1>
               </div>
             </div>
@@ -149,69 +269,203 @@ export default function Home() {
             <div className="px-5 py-4  w-full flex justify-evenly">
               <h1 className="text-gray-800/50 text-2xl font-semibold">SAT</h1>
               <div className="flex ">
-                <Image src={rainy} alt="rainy" className="w-10 mx-2 my-2" />
-                <h1 className=" text-2xl font-semibold">Sunny</h1>
+                <Image
+                  src={
+                    data?.forecast.forecastday[1].hour[0].condition.text ===
+                    "Rain"
+                      ? rainy
+                      : data?.forecast.forecastday[1].hour[0].condition.text ===
+                        "Sunny"
+                      ? sunny
+                      : data?.forecast.forecastday[1].hour[0].condition.text ===
+                        "Clear"
+                      ? clear
+                      : cloudy
+                  }
+                  alt="rainy"
+                  className="w-10 mx-2 my-2"
+                />
+                <h1 className=" text-2xl font-semibold">
+                  {data?.forecast.forecastday[1].hour[0].condition.text}
+                </h1>
               </div>
 
-              <h1 className=" text-2xl font-semibold">30</h1>
+              <h1 className=" text-2xl font-semibold">
+                {data?.forecast.forecastday[1].hour[0].temp_c}
+              </h1>
             </div>
             <hr className="w-[30vh] mx-auto bg-black md:h-1 md:bg-slate-400" />{" "}
             <div className="px-5 py-4  w-full flex justify-evenly">
               <h1 className="text-gray-800/50 text-2xl font-semibold">SUN</h1>
               <div className="flex ">
-                <Image src={rainy} alt="rainy" className="w-10 mx-2 my-2" />
-                <h1 className=" text-2xl font-semibold">Sunny</h1>
+                <Image
+                  src={
+                    data?.forecast.forecastday[1].hour[1].condition.text ===
+                    "Rain"
+                      ? rainy
+                      : data?.forecast.forecastday[1].hour[1].condition.text ===
+                        "Sunny"
+                      ? sunny
+                      : data?.forecast.forecastday[1].hour[1].condition.text ===
+                        "Clear"
+                      ? clear
+                      : cloudy
+                  }
+                  alt="rainy"
+                  className="w-10 mx-2 my-2"
+                />
+                <h1 className=" text-2xl font-semibold">
+                  {data?.forecast.forecastday[1].hour[1].condition.text}
+                </h1>
               </div>
 
-              <h1 className=" text-2xl font-semibold">30</h1>
+              <h1 className=" text-2xl font-semibold">
+                {data?.forecast.forecastday[1].hour[1].temp_c}
+              </h1>
             </div>
             <hr className="w-[30vh] mx-auto bg-black md:h-1 md:bg-slate-400" />{" "}
             <div className="px-5 py-4  w-full flex justify-evenly">
               <h1 className="text-gray-800/50 text-2xl font-semibold">MON</h1>
               <div className="flex ">
-                <Image src={rainy} alt="rainy" className="w-10 mx-2 my-2" />
-                <h1 className=" text-2xl font-semibold">Sunny</h1>
+                <Image
+                  src={
+                    data?.forecast.forecastday[2].hour[3].condition.text ===
+                    "Rain"
+                      ? rainy
+                      : data?.forecast.forecastday[2].hour[3].condition.text ===
+                        "Sunny"
+                      ? sunny
+                      : data?.forecast.forecastday[2].hour[3].condition.text ===
+                        "Clear"
+                      ? clear
+                      : cloudy
+                  }
+                  alt="rainy"
+                  className="w-10 mx-2 my-2"
+                />
+                <h1 className=" text-2xl font-semibold">
+                  {data?.forecast.forecastday[2].hour[3].condition.text}
+                </h1>
               </div>
 
-              <h1 className=" text-2xl font-semibold">30</h1>
+              <h1 className=" text-2xl font-semibold">
+                {data?.forecast.forecastday[2].hour[3].temp_c}
+              </h1>
             </div>
             <hr className="w-[30vh] mx-auto bg-black md:h-1 md:bg-slate-400" />{" "}
             <div className="px-5 py-4  w-full flex justify-evenly">
               <h1 className="text-gray-800/50 text-2xl font-semibold">TUE</h1>
               <div className="flex ">
-                <Image src={rainy} alt="rainy" className="w-10 mx-2 my-2" />
-                <h1 className=" text-2xl font-semibold">Sunny</h1>
+                <Image
+                  src={
+                    data?.forecast.forecastday[1].hour[10].condition.text ===
+                    "Rain"
+                      ? rainy
+                      : data?.forecast.forecastday[1].hour[10].condition
+                          .text === "Sunny"
+                      ? sunny
+                      : data?.forecast.forecastday[1].hour[10].condition
+                          .text === "Clear"
+                      ? clear
+                      : cloudy
+                  }
+                  alt="rainy"
+                  className="w-10 mx-2 my-2"
+                />
+                <h1 className=" text-2xl font-semibold">
+                  {data?.forecast.forecastday[1].hour[10].condition.text}
+                </h1>
               </div>
 
-              <h1 className=" text-2xl font-semibold">30</h1>
+              <h1 className=" text-2xl font-semibold">
+                {data?.forecast.forecastday[1].hour[10].temp_c}
+              </h1>
             </div>
             <hr className="w-[30vh] mx-auto bg-black md:h-1 md:bg-slate-400" />{" "}
             <div className="px-5 py-4  w-full flex justify-evenly">
               <h1 className="text-gray-800/50 text-2xl font-semibold">WED</h1>
               <div className="flex ">
-                <Image src={rainy} alt="rainy" className="w-10 mx-2 my-2" />
-                <h1 className=" text-2xl font-semibold">Sunny</h1>
+                <Image
+                  src={
+                    data?.forecast.forecastday[1].hour[18].condition.text ===
+                    "Rain"
+                      ? rainy
+                      : data?.forecast.forecastday[1].hour[18].condition
+                          .text === "Sunny"
+                      ? sunny
+                      : data?.forecast.forecastday[1].hour[18].condition
+                          .text === "Clear"
+                      ? clear
+                      : cloudy
+                  }
+                  alt="rainy"
+                  className="w-10 mx-2 my-2"
+                />
+                <h1 className=" text-2xl font-semibold">
+                  {data?.forecast.forecastday[1].hour[18].condition.text}
+                </h1>
               </div>
 
-              <h1 className=" text-2xl font-semibold">30</h1>
+              <h1 className=" text-2xl font-semibold">
+                {data?.forecast.forecastday[1].hour[18].temp_c}
+              </h1>
             </div>
             <hr className="w-[30vh] mx-auto bg-black md:h-1 md:bg-slate-400" />{" "}
             <div className="px-5 py-4  w-full flex justify-evenly">
               <h1 className="text-gray-800/50 text-2xl font-semibold">THU</h1>
               <div className="flex ">
-                <Image src={rainy} alt="rainy" className="w-10 mx-2 my-2" />
-                <h1 className=" text-2xl font-semibold">Sunny</h1>
+                <Image
+                  src={
+                    data?.forecast.forecastday[2].hour[10].condition.text ===
+                    "Rain"
+                      ? rainy
+                      : data?.forecast.forecastday[2].hour[10].condition
+                          .text === "Sunny"
+                      ? sunny
+                      : data?.forecast.forecastday[2].hour[10].condition
+                          .text === "Clear"
+                      ? clear
+                      : cloudy
+                  }
+                  alt="rainy"
+                  className="w-10 mx-2 my-2"
+                />
+                <h1 className=" text-2xl font-semibold">
+                  {data?.forecast.forecastday[2].hour[10].condition.text}
+                </h1>
               </div>
 
-              <h1 className=" text-2xl font-semibold">30</h1>
+              <h1 className=" text-2xl font-semibold">
+                {data?.forecast.forecastday[2].hour[10].temp_c}
+              </h1>
             </div>
             <hr className="w-[30vh] mx-auto bg-black md:h-1 md:bg-slate-400" />{" "}
             <div className="px-5 py-4  w-full flex justify-evenly">
               <h1 className="text-gray-800/50 text-2xl font-semibold">FRI</h1>
               <div className="flex ">
-                <Image src={rainy} alt="rainy" className="w-10 mx-2 my-2" />
-                <h1 className=" text-2xl font-semibold">Sunny</h1>
+                <Image
+                  src={
+                    data?.forecast.forecastday[2].hour[18].condition.text ===
+                    "Rain"
+                      ? rainy
+                      : data?.forecast.forecastday[2].hour[18].condition
+                          .text === "Sunny"
+                      ? sunny
+                      : data?.forecast.forecastday[2].hour[18].condition
+                          .text === "Clear"
+                      ? clear
+                      : cloudy
+                  }
+                  alt="rainy"
+                  className="w-10 mx-2 my-2"
+                />
+                <h1 className=" text-2xl font-semibold">
+                  {data?.forecast.forecastday[2].hour[18].condition.text}
+                </h1>
               </div>
+              <h1 className=" text-2xl font-semibold">
+                {data?.forecast.forecastday[2].hour[18].temp_c}
+              </h1>
             </div>
             <hr className="" />
           </div>
