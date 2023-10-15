@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex bg-orange-400 h-screen">
+        <div className="flex  h-screen">
           <div className="sidebarComp">
             <Sidebar />
           </div>
