@@ -35,6 +35,14 @@ export default function Sidebar() {
               </h1>
             </div>
           </div>
+          <div className="py-4 flex justify-center">
+            <button onClick={() => signOut()} className="cursor-pointer">
+              <GiExitDoor className="text-[20px] mb-2 text-gray-700/60 font-bold mx-auto" />
+              <div className="text-[8px] md:text-[12px] font-bold text-center">
+                Exit
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
