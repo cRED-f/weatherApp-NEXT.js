@@ -13,7 +13,7 @@ export default function Cities() {
       else {
         try {
           const { data } = await axios.get(
-            `http://api.weatherapi.com/v1/timezone.json?key=e3aa3146c4ec46cba58180117232503&q=dhaka
+            `https://api.weatherapi.com/v1/timezone.json?key=e3aa3146c4ec46cba58180117232503&q=dhaka
       `,
             {
               header: {
@@ -34,7 +34,7 @@ export default function Cities() {
   const handlebtn = async () => {
     try {
       const { data } = await axios.get(
-        `http://api.weatherapi.com/v1/timezone.json?key=e3aa3146c4ec46cba58180117232503&q=${city}
+        `https://api.weatherapi.com/v1/timezone.json?key=e3aa3146c4ec46cba58180117232503&q=${city}
 `,
         {
           header: {

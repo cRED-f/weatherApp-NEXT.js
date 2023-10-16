@@ -22,7 +22,7 @@ export default function Weather() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `http://api.weatherapi.com/v1/forecast.json?key=e3aa3146c4ec46cba58180117232503&q=${
+          `https://api.weatherapi.com/v1/forecast.json?key=e3aa3146c4ec46cba58180117232503&q=${
             searchInput.length === 0 ? "dhaka" : searchInput
           }&days=7&aqi=yes&alerts=no`,
           {
@@ -47,7 +47,7 @@ export default function Weather() {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `http://api.weatherapi.com/v1/forecast.json?key=e3aa3146c4ec46cba58180117232503&q=${
+          `https://api.weatherapi.com/v1/forecast.json?key=e3aa3146c4ec46cba58180117232503&q=${
             searchInput.length === 0 ? "dhaka" : searchInput
           }&days=7&aqi=yes&alerts=no`,
           {
