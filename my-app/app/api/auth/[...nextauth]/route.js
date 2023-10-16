@@ -5,8 +5,12 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
+      name: "Credentials",
+
       async authorize() {
-        return {};
+        return {
+          name: "John Doe",
+        };
       },
     }),
   ],

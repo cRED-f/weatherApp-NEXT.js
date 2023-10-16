@@ -5,6 +5,9 @@ import Login from "@/components/Login";
 import { SessionProvider } from "@/components/SessionProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import Cities from "@/components/Cities";
+import Weather from "@/components/Weather";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,14 +25,14 @@ export default async function RootLayout({ children }) {
         <SessionProvider session={session}>
           {session ? (
             <div className="flex  h-screen">
-              <div className="sidebarComp">
-                <Sidebar />
-              </div>
+              <Sidebar />
+
               {children}
             </div>
           ) : (
             <Login />
           )}
+          <Toaster />
         </SessionProvider>
       </body>
     </html>

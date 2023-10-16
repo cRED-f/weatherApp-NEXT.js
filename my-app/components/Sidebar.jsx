@@ -4,6 +4,8 @@ import { TiWeatherDownpour } from "react-icons/ti";
 import { GiSettingsKnobs, GiExitDoor } from "react-icons/gi";
 import { BsFillUmbrellaFill, BsFillMapFill } from "react-icons/bs";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
+
 export default function Sidebar() {
   return (
     <div className="mt-10 mx-2 w-14 md:m-10 md:w-20 ">
@@ -13,37 +15,46 @@ export default function Sidebar() {
         </div>
         <div className="flex flex-col h-screen">
           <div className="pt-10 pb-2 ">
-            <div className="cursor-pointer">
-              <TiWeatherDownpour className="text-[20px] mb-2 text-gray-700/60 font-bold mx-auto " />
-              <h1 className="text-[8px] md:text-[12px] font-bold text-center ">
-                Weather
-              </h1>
-            </div>
+            <Link href="/weather">
+              <div className="cursor-pointer">
+                <TiWeatherDownpour className="text-[20px] mb-2 text-gray-700/60 font-bold mx-auto " />
+                <h1 className="text-[8px] md:text-[12px] font-bold text-center ">
+                  Weather
+                </h1>
+              </div>
+            </Link>
           </div>
           <div className="py-4">
-            <div className="cursor-pointer">
-              <BsFillMapFill className="text-[20px] mb-2 text-gray-700/60 font-bold mx-auto" />
-              <h1 className="text-[8px] md:text-[12px] font-bold text-center">
-                Cities
-              </h1>
-            </div>
+            <Link href="/cities">
+              <div className="cursor-pointer">
+                <BsFillMapFill className="text-[20px] mb-2 text-gray-700/60 font-bold mx-auto" />
+                <h1 className="text-[8px] md:text-[12px] font-bold text-center">
+                  Cities
+                </h1>
+              </div>
+            </Link>
           </div>
           <div className="py-4">
-            <div className="cursor-pointer">
-              <GiSettingsKnobs className="text-[20px] mb-2 text-gray-700/60 font-bold mx-auto" />
-              <h1 className="text-[8px] md:text-[12px] font-bold text-center">
-                Settings
-              </h1>
-            </div>
+            <Link href="/settings">
+              <div className="cursor-pointer">
+                <GiSettingsKnobs className="text-[20px] mb-2 text-gray-700/60 font-bold mx-auto" />
+                <h1 className="text-[8px] md:text-[12px] font-bold text-center">
+                  Settings
+                </h1>
+              </div>
+            </Link>
           </div>
           <div className="py-4 flex justify-center">
-            <button onClick={() => signOut()} className="cursor-pointer">
-              <GiExitDoor className="text-[20px] mb-2 text-gray-700/60 font-bold mx-auto" />
-              <div className="text-[8px] md:text-[12px] font-bold text-center">
-                Exit
-              </div>
-            </button>
-          </div>
+            {" "}
+            <Link href="/">
+              <button onClick={() => signOut()} className="cursor-pointer">
+                <GiExitDoor className="text-[20px] mb-2 text-gray-700/60 font-bold mx-auto" />
+                <div className="text-[8px] md:text-[12px] font-bold text-center">
+                  Exit
+                </div>
+              </button>{" "}
+            </Link>
+          </div>{" "}
         </div>
       </div>
     </div>
