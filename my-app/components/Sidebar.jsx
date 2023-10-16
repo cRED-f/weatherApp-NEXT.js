@@ -1,8 +1,9 @@
+"use client";
 import React from "react";
 import { TiWeatherDownpour } from "react-icons/ti";
-import { GiSettingsKnobs } from "react-icons/gi";
+import { GiSettingsKnobs, GiExitDoor } from "react-icons/gi";
 import { BsFillUmbrellaFill, BsFillMapFill } from "react-icons/bs";
-
+import { signOut } from "next-auth/react";
 export default function Sidebar() {
   return (
     <div className="mt-10 mx-2 w-14 md:m-10 md:w-20 ">
